@@ -127,6 +127,9 @@ func (fd *netFD) dial(ctx context.Context, laddr, raddr sockaddr) error {
 		if lsa, err = laddr.sockaddr(fd.family); err != nil {
 			return err
 		} else if lsa != nil {
+			if taddr, ok := laddr.(*TCPAddr); ok && taddr.IP != nil && taddr.Port == 0 {
+				trySetBindNoPortSockopts(fd.sysfd)
+			}
 			if err := syscall.Bind(fd.sysfd, lsa); err != nil {
 				return os.NewSyscallError("bind", err)
 			}
