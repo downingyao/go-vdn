@@ -37,4 +37,4 @@ func setDefaultMulticastSockopts(s syscall.Handle) error {
 	return os.NewSyscallError("setsockopt", syscall.SetsockoptInt(s, syscall.SOL_SOCKET, syscall.SO_REUSEADDR, 1))
 }
 
-func trySetBindNoPortSockopts(s int) {}
+func trySetBindNoPortSockopts(s syscall.Handle) {}
